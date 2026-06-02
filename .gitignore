@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Логи и данные
+logs/
+*.log
+dialogs.csv
+feedback.csv
+response_times.log
+uploads/
+kb_archive/
+
+# Секреты и конфиги (если вынесли в .env)
+.env
+config.py
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Системные файлы
+.DS_Store
+Thumbs.db

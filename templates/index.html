@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Amautozap - Автозапчасти Тюмень</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- ========== ШАПКА ========== -->
+<header>
+    <div class="container">
+        <div class="header-inner">
+            <div class="logo-wrapper">
+                <img src="/static/images/logo.jpg" alt="Amautozap" class="logo-img">
+            <div class="logo">
+                <h1><span>Amautozap</span></h1>
+                <p>Интернет-магазин автозапчастей</p>
+            </div>
+            </div>
+            <div class="contacts">
+                <div class="phone">📞 +7-905-715-38-24</div>
+                <div class="address">ул. Энергетиков, 167/6, Тюмень</div>
+                <button class="chat-btn" onclick="openChat()">💬 Помощь консультанта</button>
+            </div>
+            </div>
+        
+    </div>
+</header>
+
+<!-- ========== ПОИСКОВАЯ СТРОКА (отдельная секция) ========== -->
+<section class="main-search">
+    <div class="container">
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" placeholder="Поиск по артикулу, VIN или названию запчасти...">
+            <button onclick="searchParts()">Найти</button>
+        </div>
+    </div>
+</section>
+
+<!-- ========== КАТЕГОРИИ ТОВАРОВ (плитки) ========== -->
+<section class="categories">
+    <div class="container">
+        <h2>Категории запчастей</h2>
+        <div class="category-grid">
+            <div class="category-item" data-category="motor-oil">Моторные масла</div>
+            <div class="category-item" data-category="filters">Фильтры</div>
+            <div class="category-item" data-category="brakes">Тормозная система</div>
+            <div class="category-item" data-category="suspension">Подвеска</div>
+            <div class="category-item" data-category="spark-plugs">Свечи зажигания</div>
+            <div class="category-item" data-category="belts">Ремни и цепи</div>
+            <div class="category-item" data-category="cooling">Система охлаждения</div>
+            <div class="category-item" data-category="transmission">Трансмиссия и сцепление</div>
+            <div class="category-item" data-category="exhaust">Выхлопная система</div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== БАННЕР (автомобиль) ========== -->
+<section class="hero-banner">
+    <div class="container">
+        <div class="hero-text">
+            <h2>Оригинальные запчасти на все марки автомобилей</h2>
+            <p>Оформляйте заказ, и мы свяжемся с вами в кратчайшие сроки</p>
+        </div>
+    </div>
+</section>
+
+<!-- ========== ОСНОВНОЙ КАТАЛОГ С ФИЛЬТРАМИ ========== -->
+<section class="catalog-section">
+    <div class="container">
+        <div class="catalog-layout">
+            <!-- ФИЛЬТРЫ -->
+            <div class="filters">
+                <div class="filter-group">
+                    <h3>Бренды</h3>
+                    <div class="filter-tabs">
+                    </div>
+                    <div class="filter-list">
+                        <label><input type="checkbox" class="brand-filter"> Ravenol</label>
+                        <label><input type="checkbox" class="brand-filter"> Castrol</label>
+                        <label><input type="checkbox" class="brand-filter"> Mobil</label>
+                        <label><input type="checkbox" class="brand-filter"> TOYOTA</label>
+                        <label><input type="checkbox" class="brand-filter"> SHELL</label>
+                        <label><input type="checkbox" class="brand-filter"> LUKOIL</label>
+                        <label><input type="checkbox" class="brand-filter"> GENERAL MOTORS</label>
+                        <label><input type="checkbox" class="brand-filter"> Hydundai-KIA</label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h3>Вязкость</h3>
+                    <div class="filter-tabs">
+                    </div>
+                    <div class="filter-list">
+                        <label><input type="checkbox" class="viscosity-filter"> 0W-20</label>
+                        <label><input type="checkbox" class="viscosity-filter"> 0W-30</label>
+                        <label><input type="checkbox" class="viscosity-filter"> 5W-30</label>
+                        <label><input type="checkbox" class="viscosity-filter"> 5W-40</label>
+                        <label><input type="checkbox" class="viscosity-filter"> 10W-40</label>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h3>Состав масла</h3>
+                    <div class="filter-list">
+                        <label><input type="checkbox" class="type-filter"> минеральное</label>
+                        <label><input type="checkbox" class="type-filter"> полусинтетика</label>
+                        <label><input type="checkbox" class="type-filter"> синтетика</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ТОВАРЫ -->
+            <div class="products" id="productsContainer">
+                <!-- товары загружаются через JavaScript -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== ПОДВАЛ ========== -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Amautozap</h4>
+                <p>Оригинальные автозапчасти с 2010 года</p>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <p>📞 +7-905-715-38-24</p>
+                <p>📍 Тюмень, ул. Энергетиков, 167/6</p>
+                <p>✉️ info@amautozap.ru</p>
+            </div>
+            <div class="footer-col">
+                <h4>Информация</h4>
+                <p><a href="#">Доставка и оплата</a></p>
+                <p><a href="#">Возврат</a></p>
+                <p><a href="#">Контакты</a></p>
+            </div>
+            <div class="footer-col">
+                <h4>Режим работы</h4>
+                <p>Пн–Пт: 9:00 – 19:00</p>
+                <p>Сб–Вс: 10:00 – 16:00</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Amautozap — автозапчасти в Тюмени</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Модальное окно чата -->
+<div id="chatModal" class="chat-modal">
+    <div class="chat-modal-content">
+        <div class="chat-header-modal">
+            <span>Консультант Amautozap</span>
+            <button class="close-chat" onclick="closeChat()">✕</button>
+        </div>
+        <iframe src="/chat" class="chat-iframe"></iframe>
+    </div>
+</div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,478 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Mulish', sans-serif;
+    background: #f9fafb;
+    color: #1f2937;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ========== ШАПКА ========== */
+header {
+    background: #046381;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 16px 0;
+    z-index: 100;
+    color: #FFFFFF; 
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.logo h1 {
+    font-size: 40px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.logo h1 span {
+    color: #ffffff;
+}
+
+.logo p {
+    font-size: 19px;
+    color: #c6f2ff;
+    font-weight: 500;
+}
+
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo-img {
+    height: 120px;     
+    width: auto;
+    border-radius: 8px;
+}
+
+.contacts {
+    font-size: 20px;
+    text-align: right;
+    margin-left: auto;
+}
+
+.phone {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.address {
+    font-size: 18px;
+    color: #ffffff;
+    margin: 5px 0 8px 0;
+}
+
+.chat-btn {
+    background: #ff6200;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: 'Mulish', sans-serif;
+}
+
+.chat-btn:hover {
+    background: #ff6200;
+    transform: scale(1.02);
+}
+
+/* Модальное окно чата */
+.chat-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-modal-content {
+    width: 600px;
+    max-width: 90vw;
+    height: 800px;
+    max-height: 90vh;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.chat-header-modal {
+    font-size: 30px;
+    font-weight: 550;
+    background: #046381;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.close-chat {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.close-chat:hover {
+    opacity: 0.8;
+}
+
+.chat-iframe {
+    width: 100%;
+    flex: 1;
+    border: none;
+}
+
+/* ========== ПОИСКОВАЯ СТРОКА (отдельная секция) ========== */
+.main-search {
+    background: #f3f4f6;
+    padding: 20px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.search-wrapper {
+    display: flex;
+    gap: 12px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.search-wrapper input {
+    flex: 1;
+    padding: 14px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 48px;
+    font-size: 16px;
+    font-family: 'Mulish', sans-serif;
+    outline: none;
+    transition: 0.2s;
+}
+
+.search-wrapper input:focus {
+    border-color: #ff6200;
+}
+
+.search-wrapper button {
+    background: #046381;
+    color: white;
+    border: none;
+    padding: 0 28px;
+    border-radius: 48px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Mulish', sans-serif;
+    transition: 0.2s;
+}
+
+.search-wrapper button:hover {
+    background: #ff6200;
+}
+
+/* ========== КАТЕГОРИИ ТОВАРОВ (плитки) ========== */
+.categories {
+    padding: 40px 0;
+    background: white;
+}
+
+.categories h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #0a2540;
+}
+
+.category-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.category-item {
+    background: #f9fafb;
+    border-radius: 60px;
+    padding: 10px 24px;
+    font-weight: 600;
+    color: #1f2937;
+    border: 1px solid #e5e7eb;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.category-item:hover {
+    background: #ff6200;
+    color: white;
+    border-color: #ff6200;
+}
+
+/* ========== БАННЕР ========== */
+.hero-banner {
+    background: linear-gradient(135deg, #052d39 0%, #046381 100%);
+    color: white;
+    text-align: center;
+    padding: 60px 20px;
+    margin-bottom: 20px;
+}
+
+.hero-banner img {
+    max-width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 20px 30px -10px rgba(0,0,0,0.3);
+}
+
+/* Можно просто фон с текстом, если изображение не готово */
+.hero-text h2 {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 16px;
+}
+
+.hero-text p {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+/* ========== КАТАЛОГ С ФИЛЬТРАМИ (остаётся как раньше, но немного обновим оформление) ========== */
+.catalog-section {
+    padding: 40px 0;
+}
+
+.catalog-layout {
+    display: flex;
+    gap: 30px;
+}
+
+.filters {
+    width: 280px;
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    height: fit-content;
+}
+
+.filter-group {
+    margin-bottom: 24px;
+    border-bottom: 1px solid #edf2f7;
+    padding-bottom: 16px;
+}
+
+.filter-group h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #0a2540;
+}
+
+.filter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-list label {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+/* Товары */
+.products {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: 0.25s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* занимает всю высоту ячейки grid */
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 30px -12px rgba(0,0,0,0.15);
+}
+
+.product-image {
+    height: 160px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+}
+
+.product-brand {
+    font-weight: 800;
+    color: #0a2540;
+    font-size: 14px;
+    margin-bottom: 5px
+}
+
+.product-original {
+    font-size: 11px;
+    background: #eef2ff;
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 30px;
+    color: #ff6200;
+    font-weight: 600;
+    margin-bottom: 8px
+}
+
+.product-name {
+    font-weight: 700;
+    margin-top: 8px;
+    font-size: 18px;
+    flex-grow: 1; 
+}
+
+.product-price {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0a2540;
+    margin: 10px 0;
+    flex-shrink: 0;
+}
+
+.cart-btn {
+    background: #046381;
+    color: white;
+    font-size: 18px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 40px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-top: 8px;
+    flex-shrink: 0;
+}
+
+.cart-btn:hover {
+    background: #ff6200;
+}
+
+/* ========== ПОДВАЛ ========== */
+footer {
+    background: #0a2540;
+    color: #cdd9f4;
+    padding: 40px 0 20px;
+    margin-top: 60px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+}
+
+.footer-col h4 {
+    color: white;
+    font-weight: 700;
+    margin-bottom: 16px;
+    font-size: 18px;
+}
+
+.footer-col p, .footer-col a {
+    color: #cdd9f4;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.footer-col a:hover {
+    color: #ff6200;
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 1px solid #1e3a5f;
+    font-size: 13px;
+}
+
+/* адаптивность */
+@media (max-width: 768px) {
+    .catalog-layout {
+        flex-direction: column;
+    }
+    .filters {
+        width: 100%;
+    }
+    .header-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+    .contacts {
+        text-align: center;
+    }
+    .search-wrapper {
+        flex-direction: column;
+    }
+    .category-grid {
+        gap: 12px;
+    }
+}

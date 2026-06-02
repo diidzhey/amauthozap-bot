@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Чат консультант</title>
+   <link rel="stylesheet" href="/static/style.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Mulish', sans-serif
+            background: #f5f5f5;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header {
+            background: #046381;
+            color: white;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .clear-btn {
+            background: #ff6200;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        .clear-btn:hover {
+            background: #ff6200;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: #f9f9f9;
+            display: flex;
+            flex-direction: column;  /* выстраиваем сообщения вертикально */
+        }
+        .message {
+            max-width: 85%;
+            padding: 8px 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+        .message ul, .message ol {
+            margin: 5px 0 5px 20px;
+        }
+        .message li {
+            margin-bottom: 3px;
+        }
+        .user {
+            background: #046381;
+            color: white;
+            align-self: flex-end;    /* прижимаем к правому краю */
+            text-align: right;
+        }
+        .bot {
+            background: #e9ecef;
+            color: #333;
+            align-self: flex-start;  /* прижимаем к левому краю */
+        }
+          .feedback-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            align-items: center;
+        }
+        .feedback-label {
+            font-size: 12px;
+            color: #666;
+        }
+        .feedback-btn {
+            background: #e0e0e0;
+            border: none;
+            border-radius: 20px;
+            padding: 4px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        .feedback-btn:hover {
+            background: #ff6200;
+            color: white;
+        }
+        .feedback-thanks {
+            font-size: 12px;
+            color: green;
+            margin-top: 5px;
+        }
+        .input-area {
+            display: flex;
+            padding: 12px;
+            background: white;
+            border-top: 1px solid #ddd;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        #message-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 14px;
+            outline: none;
+        }
+        #send-btn {
+            background: #046381;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .typing {
+            color: #999;
+            font-style: italic;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-header">
+        <button class="clear-btn" onclick="clearChat()">🗑️ Очистить историю</button>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+        <div class="message bot">Я виртуальный консультант интернет-магазина автозапчастей.<br>
+<b>Что я умею:</b><br>
+🔍 <b>Подбирать запчасти</b> — по марке, модели, году и объёму двигателя<br>
+🩺 <b>Диагностировать неисправности</b> — по описанию симптомов (стук, скрежет, вибрация и т.д.)<br>
+🔄 <b>Находить аналоги</b> — по артикулу детали<br><br>
+<b>Примеры запросов:</b><br>
+• "Нужны тормозные колодки на Kia Rio 2012 1.4"<br>
+• "Скрежет при торможении"<br>
+• "Аналоги на TRW GDB1234"<br><br>
+Задайте свой вопрос, и я постараюсь помочь!</div>
+    </div>
+    <div class="input-area">
+        <input type="text" id="message-input" placeholder="Напишите ваш вопрос..." onkeypress="if(event.key==='Enter') sendMessage()">
+        <button id="send-btn" onclick="sendMessage()">Отправить</button>
+    </div>
+
+    <script>
+    const chatMessages = document.getElementById('chat-messages');
+    const messageInput = document.getElementById('message-input');
+    
+    let sessionId = localStorage.getItem('chat_session_id');
+    if (!sessionId) {
+        sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('chat_session_id', sessionId);
+    }
+
+    function addMessage(text, isUser) {
+        const div = document.createElement('div');
+        div.className = `message ${isUser ? 'user' : 'bot'}`;
+        // Сохраняем оригинальный текст (можно использовать innerHTML, но textContent безопаснее)
+        div.textContent = text;
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return div;
+    }
+
+    async function sendMessage() {
+        const message = messageInput.value.trim();
+        if (!message) return;
+
+        addMessage(message, true);
+        messageInput.value = '';
+
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'typing';
+        typingDiv.textContent = 'Печатает...';
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        try {
+            const response = await fetch('/ask', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: message, session_id: sessionId })
+            });
+            const data = await response.json();
+            typingDiv.remove();
+
+            // data.reply - текст ответа, data.show_feedback - true/false
+            const botMessageDiv = addMessage(data.reply, false);
+            
+            // Показываем кнопки оценки только если show_feedback === true
+            if (data.show_feedback === true) {
+                addFeedbackButtons(botMessageDiv, data.reply, sessionId);
+            }
+        } catch (error) {
+            typingDiv.remove();
+            addMessage('Ошибка соединения. Попробуйте позже.', false);
+        }
+    }
+
+    function addFeedbackButtons(messageDiv, botReply, sessionId) {
+        const feedbackDiv = document.createElement('div');
+        feedbackDiv.className = 'feedback-buttons';
+        feedbackDiv.innerHTML = `
+            <span class="feedback-label">Оцените ответ:</span>
+            <button class="feedback-btn" data-rating="good">👍</button>
+            <button class="feedback-btn" data-rating="bad">👎</button>
+        `;
+        messageDiv.appendChild(feedbackDiv);
+        
+        const buttons = feedbackDiv.querySelectorAll('.feedback-btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const rating = btn.getAttribute('data-rating') === 'good' ? 'positive' : 'negative';
+                await fetch('/feedback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ rating: rating, reply: botReply, session_id: sessionId })
+                });
+                feedbackDiv.innerHTML = '<span class="feedback-thanks">Спасибо за оценку!</span>';
+            });
+        });
+    }
+
+    async function clearChat() {
+        if (confirm('Очистить историю диалога и начать заново?')) {
+            try {
+                await fetch('/clear', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ session_id: sessionId })
+                });
+                sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('chat_session_id', sessionId);
+                // Восстанавливаем приветственное сообщение
+                chatMessages.innerHTML = '<div class="message bot">Я виртуальный консультант интернет-магазина автозапчастей.<br><b>Что я умею:</b><br>🔍 <b>Подбирать запчасти</b> — по марке, модели, году и объёму двигателя<br>🩺 <b>Диагностировать неисправности</b> — по описанию симптомов (стук, скрежет, вибрация и т.д.)<br>🔄 <b>Находить аналоги</b> — по артикулу детали<br><br><b>Примеры запросов:</b><br>• "Нужны тормозные колодки на Kia Rio 2012 1.4"<br>• "Скрежет при торможении"<br>• "Аналоги на TRW GDB1234"<br><br>Задайте свой вопрос, и я постараюсь помочь!</div>';
+            } catch (error) {
+                console.error('Ошибка очистки:', error);
+                addMessage('Ошибка при очистке истории. Попробуйте позже.', false);
+            }
+        }
+    }
+</script>
+</body>
+</html>

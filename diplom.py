@@ -1222,4 +1222,9 @@ def chat():
     return render_template('chat.html')
 
 if __name__ == '__main__':
+    # Для локального запуска (на вашем компьютере)
     app.run(debug=True, host='127.0.0.1', port=5000)
+    
+else:
+    # Для запуска на сервере (Render/Gunicorn)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))

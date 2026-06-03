@@ -1221,5 +1221,32 @@ def clear():
 def chat():
     return render_template('chat.html')
 
+# =============
+# ВРЕМЕННЫЕ МАРШРУТЫ ДЛЯ СКАЧИВАНИЯ ЛОГОВ
+# =============
+
+@app.route('/download/dialogs')
+def download_dialogs():
+    """Временный маршрут для просмотра логов диалогов"""
+    import os
+    filepath = os.path.join(os.path.dirname(__file__), "logs", "dialogs.csv")
+    if os.path.exists(filepath):
+        with open(filepath, "r", encoding="utf-8") as f:
+            content = f.read()
+        # Возвращаем как текст с сохранением форматирования
+        return f"<pre>{content}</pre>"
+    return "Файл dialogs.csv не найден. Возможно, ещё не было диалогов."
+
+@app.route('/download/feedback')
+def download_feedback():
+    """Временный маршрут для просмотра логов обратной связи"""
+    import os
+    filepath = os.path.join(os.path.dirname(__file__), "logs", "feedback.csv")
+    if os.path.exists(filepath):
+        with open(filepath, "r", encoding="utf-8") as f:
+            content = f.read()
+        return f"<pre>{content}</pre>"
+    return "Файл feedback.csv не найден. Возможно, ещё не было оценок."
+
 if __name__ == '__main__':
     pass

@@ -89,7 +89,7 @@ def send_email_notification(phone: str, dialog_summary: str, reason: str = "Эс
         """
         msg.attach(MIMEText(html_body, "html"))
 
-        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+        server = smtplib.SMTP(SMTP_SERVER, 465)
         server.starttls()
         server.login(EMAIL_SENDER, EMAIL_PASSWORD)
         server.send_message(msg)

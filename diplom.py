@@ -1023,6 +1023,12 @@ def chat_with_ai(new_message: str, chat_history: list) -> tuple:
         reply, show_feedback = ask_phone_number_and_escalate(chat_history)  # получаем два значения
         new_history = chat_history + [(new_message, reply)]
         return new_history, reply, show_feedback
+    
+
+    print("⚠️ Достигнут конец chat_with_ai без return!")
+    error_reply = "Извините, произошла внутренняя ошибка. Попробуйте позже."
+    new_history = chat_history + [(new_message, error_reply)]
+    return new_history, error_reply, False
 
 import shutil
 from datetime import datetime

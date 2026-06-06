@@ -971,7 +971,7 @@ def chat_with_ai(new_message: str, chat_history: list) -> tuple:
 
         info = extract_car_info_with_llm(chat_history + [(new_message, "")])
 
-        # Проверяем, каких данных не хватает (в правильном порядке)
+        # Проверяем, каких данных не хватает
         missing_field = None
         if not info.get("brand"):
             missing_field = "brand"
@@ -999,17 +999,25 @@ def chat_with_ai(new_message: str, chat_history: list) -> tuple:
             new_history = chat_history + [(new_message, reply)]
             return new_history, reply, False
 
+    # ========== ОСНОВНАЯ ОБРАБОТКА С return для всех веток ==========
     current_history = chat_history + [(new_message, "")]
-
-    # Вызов агентов с получением reply и show_feedback
+    
+    # ИСПРАВЛЕНИЕ: Добавляем return для всех веток
     if intent == "DIAGNOSE":
         reply, show_feedback = diagnose_agent(new_message, current_history)
+        new_history = chat_history + [(new_message, reply)]
+        return new_history, reply, show_feedback  # ✅ ДОБАВЛЕНО!
+        
     elif intent == "SEARCH":
         reply, show_feedback = search_agent(new_message, current_history)
+        new_history = chat_history + [(new_message, reply)]
+        return new_history, reply, show_feedback  # ✅ ДОБАВЛЕНО!
+        
     elif intent == "ANALOG":
         reply, show_feedback = analog_agent_message(new_message, chat_history)
         new_history = chat_history + [(new_message, reply)]
         return new_history, reply, show_feedback
+        
     else:  # ESCALATE
         all_messages = []
         for u, b in chat_history:
@@ -1020,59 +1028,9 @@ def chat_with_ai(new_message: str, chat_history: list) -> tuple:
         all_messages.append(f"👤 Клиент: {new_message}")
         dialog_summary = "\n".join(all_messages[-8:])
         send_email_notification("Ожидание ввода номера", dialog_summary, "⚠️ Чат-бот не справился с запросом!")
-        reply, show_feedback = ask_phone_number_and_escalate(chat_history)  # получаем два значения
+        reply, show_feedback = ask_phone_number_and_escalate(chat_history)
         new_history = chat_history + [(new_message, reply)]
         return new_history, reply, show_feedback
-    
-    # === ПОСЛЕДНЯЯ ПОПЫТКА: определить intent по ключевым словам ===
-    if 'intent' not in locals() or not intent:
-        query_lower = new_message.lower()
-        if any(w in query_lower for w in ["нужн", "хочу", "куп", "подбери", "найди"]):
-            intent = "SEARCH"
-            print(f"⚠️ Принудительно установлен intent = SEARCH по ключевым словам")
-        elif any(sym in query_lower for sym in ["стук", "скрежет", "вибрац", "запах", "не заводит"]):
-            intent = "DIAGNOSE"
-            print(f"⚠️ Принудительно установлен intent = DIAGNOSE")
-        elif re.search(r'[A-Z0-9]{5,}', new_message.upper()):
-            intent = "ANALOG"
-            print(f"⚠️ Принудительно установлен intent = ANALOG")
-        else:
-            intent = "ESCALATE"
-            print(f"⚠️ Принудительно установлен intent = ESCALATE")
-        
-        # Теперь обработаем этот intent
-        if intent == "SEARCH":
-            reply, show_feedback = search_agent(new_message, chat_history)
-            new_history = chat_history + [(new_message, reply)]
-            return new_history, reply, show_feedback
-        elif intent == "DIAGNOSE":
-            reply, show_feedback = diagnose_agent(new_message, chat_history)
-            new_history = chat_history + [(new_message, reply)]
-            return new_history, reply, show_feedback
-        elif intent == "ANALOG":
-            reply, show_feedback = analog_agent_message(new_message, chat_history)
-            new_history = chat_history + [(new_message, reply)]
-            return new_history, reply, show_feedback
-        else:
-            reply, show_feedback = ask_phone_number_and_escalate(chat_history)
-            new_history = chat_history + [(new_message, reply)]
-            return new_history, reply, show_feedback
-
-    # === ЗАПАСНОЙ ВОЗВРАТ ===
-    print(f"⚠️ Достигнут конец chat_with_ai без return!")
-    print(f"⚠️ new_message = {new_message}")
-    print(f"⚠️ intent = {intent if 'intent' in locals() else 'НЕ ОПРЕДЕЛЁН'}")
-    print(f"⚠️ last_bot_msg = {last_bot_msg if 'last_bot_msg' in locals() else 'НЕТ'}")
-    
-    print("⚠️ Достигнут конец chat_with_ai без return!")
-    error_reply = "Извините, произошла внутренняя ошибка. Попробуйте позже."
-    new_history = chat_history + [(new_message, error_reply)]
-    return new_history, error_reply, False
-
-    print(f"🔮 [DEBUG classify_intent] Вход: {user_query}")
-    # ... код ...
-    print(f"🔮 [DEBUG classify_intent] Выход: {intent if 'intent' in locals() else 'НЕ ОПРЕДЕЛЁН'}")
-    return intent if 'intent' in locals() else "ESCALATE"
 
 
 import shutil

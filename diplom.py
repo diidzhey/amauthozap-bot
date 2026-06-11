@@ -19,7 +19,7 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 # Настройки OpenRouter API
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-MODEL = "openrouter/owl-alpha"
+MODEL = "deepseek/deepseek-v4-flash"
 
 if not OPENROUTER_API_KEY:
     raise ValueError("❌ Вставьте API-ключ OpenRouter!")

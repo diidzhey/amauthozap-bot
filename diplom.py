@@ -19,7 +19,7 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 # Настройки OpenRouter API
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-MODEL = "google/gemini-2.0-flash-exp:free"
+MODEL = "meta-llama/llama-3.3-70b-instruct:free"
 
 if not OPENROUTER_API_KEY:
     raise ValueError("❌ Вставьте API-ключ OpenRouter!")

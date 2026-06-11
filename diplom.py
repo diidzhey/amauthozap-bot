@@ -19,7 +19,7 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 # Настройки OpenRouter API
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-MODEL = "qwen/qwen3-next-80b-a3b-instruct:free"
+MODEL = "openrouter/owl-alpha"
 
 if not OPENROUTER_API_KEY:
     raise ValueError("❌ Вставьте API-ключ OpenRouter!")
